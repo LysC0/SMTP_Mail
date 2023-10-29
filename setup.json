@@ -1,0 +1,13 @@
+{
+    "SENDER_INFO" : {
+        "sender_email" : "",
+        "sender_email_password" : ""
+    },
+
+    "EMAIL_INFO" : {
+         "subject" : "",
+         "email" : "",
+         "img_path" : ""
+    }
+}
+
