@@ -5,13 +5,17 @@
 #############################################
 
 #lib
+import sys
+import json
+import getpass
+import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
-import json
-import pandas as pd
-import time 
+
+#get user id
+USER = getpass.getuser()
 
 #open email_data.txt 
 with open('email_data.txt', 'r') as e:
@@ -34,11 +38,12 @@ except:
     msg['To'] = json_data['SENDER_INFO']['sender_email']
 
 msg['Subject'] = json_data['EMAIL_INFO']['subject'] #subject info
-#message = email_data
+
 
 #var for login
 SENDER = json_data['SENDER_INFO']['sender_email']
 PASSWORD = json_data['SENDER_INFO']['sender_email_password']
+
 
 #message attach
 try:
@@ -47,6 +52,7 @@ try:
 except:
     print('error on attach message')
 
+#message add img
 try: 
     IMG_PATH = json_data['EMAIL_INFO']['img_path']
     open_img = open(IMG_PATH, 'rb')
@@ -55,8 +61,9 @@ try:
     msg.attach(img)
 except:
     pass
-#sender module
 
+
+#sender module
 i = 0 #conteur I++ pour lecture de la liste csv
 def Sender():
     try:               
@@ -73,30 +80,29 @@ def Sender():
         pass
 
 
-
-
 print('')
+print(' - |',USER,'| - exit[0]')
 print("""______________________
 ┏┓┳┳┓┏┳┓┏┓  ┏┓       
 ┗┓┃┃┃ ┃ ┃┃  ┗┓┏┓┏┓┏┳┓
 ┗┛┛ ┗ ┻ ┣┛  ┗┛┣┛┗┻┛┗┗
-              ┛ """)
+              ┛   """)
 print('Sender :',SENDER)
 print('______________________')
 print('')
-input('- Launch : ')
+var = input('- Launch : ')
+if var == '0':
+    sys.exit()
 print('')
 
 x = 1
 try:
     while (x < 200):
         try: 
-            Sender()
-            x +=1
-            i +=1
-            print('Sending email... : ',str(x), end='\r')
-            if Sender is None :
-                break
+                Sender()
+                x +=1
+                i +=1
+                print('Sending email... : ',str(x), end='\r')
         except StopIteration:
             break
 except:
